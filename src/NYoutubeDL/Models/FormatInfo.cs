@@ -26,11 +26,11 @@ namespace NYoutubeDL.Models
 
     public class FormatInfo
     {
-        public int? abr { get; set; }
+        public double? abr { get; set; }
 
         public string acodec { get; set; }
 
-        public int? asr { get; set; }
+        public double? asr { get; set; }
 
         public string container { get; set; }
 

@@ -108,7 +108,7 @@ namespace NYoutubeDL.Models
 
         public string Acodec { get; }
 
-        public int? Abr { get; }
+        public double? Abr { get; }
 
         public int? AgeLimit { get; }
 

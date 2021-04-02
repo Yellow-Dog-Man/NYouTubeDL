@@ -45,11 +45,11 @@ namespace NYoutubeDL.Models
             this.Width = info.width;
         }
 
-        public int? Abr { get; }
+        public double? Abr { get; }
 
         public string Acodec { get; }
 
-        public int? Asr { get; }
+        public double? Asr { get; }
 
         public string Container { get; }
 

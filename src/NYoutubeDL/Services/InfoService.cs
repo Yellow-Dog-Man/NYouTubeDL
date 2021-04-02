@@ -56,6 +56,7 @@ namespace NYoutubeDL.Services
             }
 
             List<DownloadInfo> infos = new List<DownloadInfo>();
+            string rawOutput = null;
 
             // Save the original options and set the ones we need
             string originalOptions = ydl.Options.Serialize();
@@ -76,6 +77,8 @@ namespace NYoutubeDL.Services
                 {
                     infos.Add(DownloadInfo.CreateDownloadInfo(output));
                 }
+
+                rawOutput = output;
             }
 
             ydl.StandardOutputEvent += ParseInfoJson;
@@ -98,6 +101,9 @@ namespace NYoutubeDL.Services
 
             // Set the info object
             ydl.Info = infos.Count > 1 ? new MultiDownloadInfo(infos) : infos[0];
+
+            if (ydl.Info == null)
+                throw new Exception("Error parsing youtube-dl output. Raw Output:\n" + rawOutput);
 
             // Set options back to what they were
             ydl.Options = Options.Deserialize(originalOptions);
@@ -259,6 +265,10 @@ namespace NYoutubeDL.Services
                     NetRc = ydl.Options.AuthenticationOptions.NetRc,
                     VideoPassword = ydl.Options.AuthenticationOptions.VideoPassword,
                     TwoFactor = ydl.Options.AuthenticationOptions.TwoFactor
+                },
+                VideoSelectionOptions =
+                {
+                    NoPlaylist = ydl.Options.VideoSelectionOptions.NoPlaylist
                 }
             };
 
