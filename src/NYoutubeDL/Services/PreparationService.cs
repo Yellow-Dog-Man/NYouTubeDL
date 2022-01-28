@@ -125,7 +125,10 @@ namespace NYoutubeDL.Services
         /// </param>
         internal static void SetupPrepare(YoutubeDL ydl)
         {
-            string arguments = ydl.Options.ToCliParameters() + " " + ydl.VideoUrl;
+            // Convert the string to URI in order to sanitize it
+            var uri = new Uri(ydl.VideoUrl);
+
+            string arguments = ydl.Options.ToCliParameters() + " " + uri.AbsoluteUri;
 
             ydl.processStartInfo = new ProcessStartInfo
             {
