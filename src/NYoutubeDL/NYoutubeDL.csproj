@@ -3,17 +3,15 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Version>0.10.8</Version>
-    <Authors>Brian Allred</Authors>
+    <Authors>Brian Allred, Yellow Dog Man Studios</Authors>
     <Company/>
     <Product/>
-    <Description>A simple youtube-dl library for C#.</Description>
+    <Description>Fork of Brian's library, A simple youtube-dl library for C#.</Description>
     <Copyright>Copyright Brian Allred 2018</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>http://gitlab.com/brianallred/nyoutubedl</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/Yellow-Dog-Man/NYouTubeDL</PackageProjectUrl>
     <PackageTags>youtube-dl</PackageTags>
     <NeutralLanguage></NeutralLanguage>
-    <AssemblyVersion>0.10.8.0</AssemblyVersion>
-    <FileVersion>0.10.8.0</FileVersion>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3"/>
