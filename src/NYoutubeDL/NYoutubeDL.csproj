@@ -12,6 +12,7 @@
     <PackageProjectUrl>https://github.com/Yellow-Dog-Man/NYouTubeDL</PackageProjectUrl>
     <PackageTags>youtube-dl</PackageTags>
     <NeutralLanguage></NeutralLanguage>
+    <PackageId>YellowDogMan.NYouTubeDL</PackageId>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3"/>
