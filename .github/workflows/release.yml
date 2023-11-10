@@ -22,6 +22,8 @@ jobs:
         dotnet-version: 7.0.x
     - name: Install dependencies
       run: dotnet restore
+    - name: Build
+      run: dotnet build .\NYoutubeDL.csproj -c Release
     - name: Pack
       run: dotnet pack NYoutubeDL.csproj --output nupkgs --configuration Release -p:Version=${{ env.VERSION }}
     - name: Nuget Publish
