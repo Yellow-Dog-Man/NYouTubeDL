@@ -70,6 +70,8 @@ namespace NYoutubeDL.Options
 
         [Option] internal readonly BoolOption yesPlaylist = new BoolOption("--yes-playlist");
 
+        [Option] internal readonly BoolOption youtubeMediaConnect = new BoolOption("--extractor-args \"youtube:player_client=mediaconnect\"");
+
         /// <summary>
         ///     --age-limit
         /// </summary>
@@ -240,6 +242,15 @@ namespace NYoutubeDL.Options
         {
             get => this.yesPlaylist.Value ?? false;
             set => this.SetField(ref this.yesPlaylist.Value, value);
+        }
+
+        /// <summary>
+        ///     --extractor-args "youtube:player_client=mediaconnect"
+        /// </summary>
+        public bool YoutubeMediaConnectClient
+        {
+            get => this.youtubeMediaConnect.Value ?? false;
+            set => this.SetField(ref this.youtubeMediaConnect.Value, value);
         }
     }
 }

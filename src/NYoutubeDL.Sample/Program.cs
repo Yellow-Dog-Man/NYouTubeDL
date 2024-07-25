@@ -34,50 +34,7 @@ namespace NYoutubeDL.Sample
     {
         public static async Task Main(string[] args)
         {
-            var a = new YoutubeDL(@"D:\Neos Nightly\Neos\RuntimeData\youtube-dl.exe");
 
-            a.Options.VideoSelectionOptions.NoPlaylist = true;
-
-            var info = await a.GetDownloadInfoAsync(" https://youtu.be/yiACBm3ynDQ");
-
-            Console.WriteLine("Test");
-
-            //YoutubeDL ydlClient = new YoutubeDL();
-
-            //ydlClient.Options.DownloadOptions.FragmentRetries = -1;
-            //ydlClient.Options.DownloadOptions.Retries = -1;
-            //ydlClient.Options.VideoFormatOptions.Format = Enums.VideoFormat.best;
-            //ydlClient.Options.PostProcessingOptions.AudioFormat = Enums.AudioFormat.best;
-            //ydlClient.Options.PostProcessingOptions.AudioQuality = "0";
-
-            //string options = ydlClient.Options.Serialize();
-            //ydlClient.Options = Options.Deserialize(options);
-
-            //ydlClient.StandardErrorEvent += (sender, error) => Console.WriteLine(error);
-            //ydlClient.StandardOutputEvent += (sender, output) => Console.WriteLine(output);
-
-            //ydlClient.Info.PropertyChanged += (sender, e) => 
-            //{
-            //    DownloadInfo info = (DownloadInfo) sender;
-            //    var propertyValue = info.GetType().GetProperty(e.PropertyName).GetValue(info);
-
-            //    switch (e.PropertyName)
-            //    {
-            //        case "VideoProgress":
-            //            Console.WriteLine($" > Video Progress: {propertyValue}%");
-            //            break;
-            //        case "Status":
-            //            Console.WriteLine($" > Status: {propertyValue}");
-            //            break;
-            //        case "DownloadRate":
-            //            Console.WriteLine($" > Download Rate: {propertyValue}");
-            //            break;
-            //        default:
-            //            break;
-            //    }
-            //};
-
-            //ydlClient.Download("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
         }
     }
 }

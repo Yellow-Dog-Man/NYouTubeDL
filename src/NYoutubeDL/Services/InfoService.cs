@@ -268,7 +268,8 @@ namespace NYoutubeDL.Services
                 },
                 VideoSelectionOptions =
                 {
-                    NoPlaylist = ydl.Options.VideoSelectionOptions.NoPlaylist
+                    NoPlaylist = ydl.Options.VideoSelectionOptions.NoPlaylist,
+                    YoutubeMediaConnectClient = ydl.Options.VideoSelectionOptions.YoutubeMediaConnectClient
                 }
             };
 
