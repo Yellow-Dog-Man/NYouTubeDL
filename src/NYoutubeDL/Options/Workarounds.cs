@@ -27,6 +27,23 @@ namespace NYoutubeDL.Options
 
     #endregion
 
+    public enum CookiesBrowser
+    {
+        NONE,
+
+        // Most commonly used browsers first
+        Firefox, // It gets to be first!
+        Chrome,
+        Edge,
+        Safari,
+
+        Brave,
+        Chromium,
+        Opera,
+        Vivaldi,
+        Whale
+    }
+
     /// <summary>
     ///     Object containing Workaround parameters
     /// </summary>
@@ -49,6 +66,8 @@ namespace NYoutubeDL.Options
         [Option] internal readonly IntOption sleepInterval = new IntOption("--sleep-interval");
 
         [Option] internal readonly StringOption userAgent = new StringOption("--user-agent");
+
+        [Option] internal readonly StringOption cookiesFromBrowser = new StringOption("--cookies-from-browser");
 
         /// <summary>
         ///     --bidi-workaround
@@ -120,6 +139,36 @@ namespace NYoutubeDL.Options
         {
             get => this.userAgent.Value;
             set => this.SetField(ref this.userAgent.Value, value);
+        }
+
+        /// <summary>
+        ///     --cookies-from-browser
+        /// </summary>
+        public CookiesBrowser CookiesFromBrowser
+        {
+            get
+            {
+                var value = this.cookiesFromBrowser.Value;
+
+                if (string.IsNullOrEmpty(value))
+                    return CookiesBrowser.NONE;
+
+                if (System.Enum.TryParse<CookiesBrowser>(value, true, out var browser))
+                    return browser;
+                else
+                    throw new System.Exception("Unexpected browser value: " + value);
+            }
+
+            set
+            {
+                if (!System.Enum.IsDefined(typeof(CookiesBrowser), value))
+                    throw new System.ArgumentException("Invalid cookies browser value!");
+
+                if (value == CookiesBrowser.NONE)
+                    this.SetField(ref this.cookiesFromBrowser.Value, null);
+                else
+                    this.SetField(ref this.cookiesFromBrowser.Value, value.ToString().ToLowerInvariant());
+            }
         }
 
         /// <summary>
