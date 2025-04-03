@@ -270,6 +270,10 @@ namespace NYoutubeDL.Services
                 {
                     NoPlaylist = ydl.Options.VideoSelectionOptions.NoPlaylist,
                     YoutubeMediaConnectClient = ydl.Options.VideoSelectionOptions.YoutubeMediaConnectClient
+                },
+                WorkaroundsOptions =
+                {
+                    CookiesFromBrowser = ydl.Options.WorkaroundsOptions.CookiesFromBrowser
                 }
             };
 
