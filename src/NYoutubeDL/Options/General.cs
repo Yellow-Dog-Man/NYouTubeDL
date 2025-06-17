@@ -31,6 +31,10 @@ namespace NYoutubeDL.Options
     /// </summary>
     public class General : OptionSection
     {
+        public const string STABLE_CHANNEL = "stable";
+        public const string MASTER_CHANNEL = "master";
+        public const string NIGHTLY_CHANNEL = "nightly";
+
         [Option] internal readonly BoolOption abortOnError = new BoolOption("--abort-on-error");
 
         [Option] internal readonly StringOption configLocation = new StringOption("--config-location");
@@ -58,6 +62,8 @@ namespace NYoutubeDL.Options
         [Option] internal readonly BoolOption noMarkWatched = new BoolOption("--no-mark-watched");
 
         [Option] internal readonly BoolOption update = new BoolOption("-U");
+
+        [Option] internal readonly StringOption updateTo = new StringOption("--update-to");
 
         [Option] internal readonly BoolOption version = new BoolOption("--version");
 
@@ -185,6 +191,15 @@ namespace NYoutubeDL.Options
         {
             get => this.update.Value ?? false;
             set => this.SetField(ref this.update.Value, value);
+        }
+
+        /// <summary>
+        ///     --update-to
+        /// </summary>
+        public string UpdateTo
+        {
+            get => this.updateTo.Value;
+            set => this.SetField(ref this.updateTo.Value, value);
         }
 
         /// <summary>
