@@ -256,7 +256,9 @@ namespace NYoutubeDL.Services
                 GeneralOptions =
                 {
                     FlatPlaylist = !ydl.RetrieveAllInfo,
-                    IgnoreErrors = true
+                    IgnoreErrors = true,
+                    Update = ydl.Options.GeneralOptions.Update,
+                    UpdateTo = ydl.Options.GeneralOptions.UpdateTo
                 },
                 AuthenticationOptions =
                 {
