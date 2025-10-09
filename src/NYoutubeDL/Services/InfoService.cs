@@ -271,7 +271,8 @@ namespace NYoutubeDL.Services
                 VideoSelectionOptions =
                 {
                     NoPlaylist = ydl.Options.VideoSelectionOptions.NoPlaylist,
-                    YoutubeMediaConnectClient = ydl.Options.VideoSelectionOptions.YoutubeMediaConnectClient
+                    YoutubeMediaConnectClient = ydl.Options.VideoSelectionOptions.YoutubeMediaConnectClient,
+                    YoutubeWebSafariClient = ydl.Options.VideoSelectionOptions.YoutubeWebSafariClient,
                 },
                 WorkaroundsOptions =
                 {
