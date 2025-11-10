@@ -1,0 +1,31 @@
+name: Publish pre-release from local branch
+
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: 'Branch to run the workflow against'
+        required: true
+        default: 'master'
+      version:
+        description: 'Version to publish (-<hash>-alpha will be added to this string)'
+        required: true
+        default: '1.0.0'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working_directory: src/NYoutubeDL/
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.inputs.ref }}
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '9.0.x'
+      - run: dotnet restore
+      - run: dotnet build NYoutubeDL.csproj -c Release -p:Version=${{ github.event.inputs.version }}-${{ github.sha }}-alpha
+      - run: dotnet pack NYoutubeDL.csproj --output nupkgs -c Release -p:Version=${{ github.event.inputs.version }}-${{ github.sha }}-alpha
+      - run: dotnet nuget push nupkgs/*.nupkg -k ${{ secrets.NUGET_TOKEN }} -s https://api.nuget.org/v3/index.json
