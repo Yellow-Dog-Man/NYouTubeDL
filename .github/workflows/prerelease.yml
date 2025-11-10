@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working_directory: src/NYoutubeDL/
+        working-directory: src/NYoutubeDL/
     steps:
       - uses: actions/checkout@v5
         with:
