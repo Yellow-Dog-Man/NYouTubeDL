@@ -39,6 +39,10 @@ namespace NYoutubeDL.Options
 
         [Option] internal readonly StringOption configLocation = new StringOption("--config-location");
 
+        [Option] internal readonly StringOption jsRuntimes = new StringOption("--js-runtimes");
+
+        [Option] internal readonly BoolOption noJsRuntimes = new BoolOption("--no-js-runtimes");
+
         [Option] internal readonly StringOption defaultSearch = new StringOption("--default-search");
 
         [Option] internal readonly BoolOption dumpUserAgent = new BoolOption("--dump-user-agent");
@@ -83,6 +87,45 @@ namespace NYoutubeDL.Options
         {
             get => this.configLocation.Value;
             set => this.SetField(ref this.configLocation.Value, value);
+        }
+
+        /// <summary>
+        ///     --js-runtimes
+        /// </summary>
+        public JsRuntimes JsRuntimes
+        {
+            get
+            {
+                var value = this.jsRuntimes.Value;
+
+                if (string.IsNullOrEmpty(value))
+                    return JsRuntimes.NONE;
+
+                if (System.Enum.TryParse<JsRuntimes>(value, true, out var jsRuntime))
+                    return jsRuntime;
+                else
+                    throw new System.Exception("Unexpected jsRuntimes value: " + value);
+            }
+
+            set
+            {
+                if (!System.Enum.IsDefined(typeof(JsRuntimes), value))
+                    throw new System.ArgumentException("Invalid jsRuntimes value!");
+
+                if (value == JsRuntimes.NONE)
+                    this.SetField(ref this.jsRuntimes.Value, null);
+                else
+                    this.SetField(ref this.jsRuntimes.Value, value.ToString().ToLowerInvariant());
+            }
+        }
+
+        /// <summary>
+        ///     --no-js-runtimes
+        /// </summary>
+        public bool NoJsRuntimes
+        {
+            get => this.noJsRuntimes.Value ?? false;
+            set => this.SetField(ref this.noJsRuntimes.Value, value);
         }
 
         /// <summary>
@@ -210,5 +253,14 @@ namespace NYoutubeDL.Options
             get => this.version.Value ?? false;
             set => this.SetField(ref this.version.Value, value);
         }
+    }
+
+    public enum JsRuntimes
+    {
+        NONE,
+        Deno,
+        Node,
+        Bun,
+        QuickJs,
     }
 }
