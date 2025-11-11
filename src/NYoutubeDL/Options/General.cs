@@ -1,15 +1,15 @@
 ﻿// Copyright 2018 Brian Allred
-// 
+//
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to
 // deal in the Software without restriction, including without limitation the
 // rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
 // sell copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be included in
 // all copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -22,6 +22,7 @@ namespace NYoutubeDL.Options
 {
     #region Using
 
+    using System.Collections.Generic;
     using Helpers;
 
     #endregion
@@ -39,7 +40,7 @@ namespace NYoutubeDL.Options
 
         [Option] internal readonly StringOption configLocation = new StringOption("--config-location");
 
-        [Option] internal readonly StringOption jsRuntimes = new StringOption("--js-runtimes");
+        [Option] internal readonly MultiEnumOption<Enums.JsRuntime> jsRuntimes = new MultiEnumOption<Enums.JsRuntime>("--js-runtimes");
 
         [Option] internal readonly BoolOption noJsRuntimes = new BoolOption("--no-js-runtimes");
 
@@ -92,31 +93,10 @@ namespace NYoutubeDL.Options
         /// <summary>
         ///     --js-runtimes
         /// </summary>
-        public JsRuntimes JsRuntimes
+        public IList<Enums.JsRuntime> JsRuntimes
         {
-            get
-            {
-                var value = this.jsRuntimes.Value;
-
-                if (string.IsNullOrEmpty(value))
-                    return JsRuntimes.NONE;
-
-                if (System.Enum.TryParse<JsRuntimes>(value, true, out var jsRuntime))
-                    return jsRuntime;
-                else
-                    throw new System.Exception("Unexpected jsRuntimes value: " + value);
-            }
-
-            set
-            {
-                if (!System.Enum.IsDefined(typeof(JsRuntimes), value))
-                    throw new System.ArgumentException("Invalid jsRuntimes value!");
-
-                if (value == JsRuntimes.NONE)
-                    this.SetField(ref this.jsRuntimes.Value, null);
-                else
-                    this.SetField(ref this.jsRuntimes.Value, value.ToString().ToLowerInvariant());
-            }
+            get => this.jsRuntimes.Value;
+            set => this.SetField(ref this.jsRuntimes.Value, value);
         }
 
         /// <summary>
@@ -253,14 +233,5 @@ namespace NYoutubeDL.Options
             get => this.version.Value ?? false;
             set => this.SetField(ref this.version.Value, value);
         }
-    }
-
-    public enum JsRuntimes
-    {
-        NONE,
-        Deno,
-        Node,
-        Bun,
-        QuickJs,
     }
 }
