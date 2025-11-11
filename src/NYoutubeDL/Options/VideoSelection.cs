@@ -72,6 +72,8 @@ namespace NYoutubeDL.Options
 
         [Option] internal readonly BoolOption youtubeMediaConnect = new BoolOption("--extractor-args \"youtube:player_client=mediaconnect\"");
 
+        [Option] internal readonly BoolOption youtubeWebSafari = new BoolOption("--extractor-args \"youtube:player_client=default,web_safari\"");
+
         /// <summary>
         ///     --age-limit
         /// </summary>
@@ -251,6 +253,18 @@ namespace NYoutubeDL.Options
         {
             get => this.youtubeMediaConnect.Value ?? false;
             set => this.SetField(ref this.youtubeMediaConnect.Value, value);
+        }
+
+        /// <summary>
+        ///     --extractor-args "youtube:player_client=default,web_safari"
+        /// </summary>
+        public bool YoutubeWebSafariClient
+        {
+            // Enable by default to offer 1080p merged video+audio formats
+            // for users with cookies linked to a YouTube Premium account
+            // https://github.com/yt-dlp/yt-dlp/issues/14575
+            get => this.youtubeWebSafari.Value ?? true;
+            set => this.SetField(ref this.youtubeWebSafari.Value, value);
         }
     }
 }
