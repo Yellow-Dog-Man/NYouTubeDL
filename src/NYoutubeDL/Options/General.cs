@@ -1,15 +1,15 @@
 ﻿// Copyright 2018 Brian Allred
-// 
+//
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to
 // deal in the Software without restriction, including without limitation the
 // rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
 // sell copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be included in
 // all copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -22,6 +22,7 @@ namespace NYoutubeDL.Options
 {
     #region Using
 
+    using System.Collections.Generic;
     using Helpers;
 
     #endregion
@@ -38,6 +39,10 @@ namespace NYoutubeDL.Options
         [Option] internal readonly BoolOption abortOnError = new BoolOption("--abort-on-error");
 
         [Option] internal readonly StringOption configLocation = new StringOption("--config-location");
+
+        [Option] internal readonly MultiEnumOption<Enums.JsRuntime> jsRuntimes = new MultiEnumOption<Enums.JsRuntime>("--js-runtimes");
+
+        [Option] internal readonly BoolOption noJsRuntimes = new BoolOption("--no-js-runtimes");
 
         [Option] internal readonly StringOption defaultSearch = new StringOption("--default-search");
 
@@ -83,6 +88,24 @@ namespace NYoutubeDL.Options
         {
             get => this.configLocation.Value;
             set => this.SetField(ref this.configLocation.Value, value);
+        }
+
+        /// <summary>
+        ///     --js-runtimes
+        /// </summary>
+        public IList<Enums.JsRuntime> JsRuntimes
+        {
+            get => this.jsRuntimes.Value;
+            set => this.SetField(ref this.jsRuntimes.Value, value);
+        }
+
+        /// <summary>
+        ///     --no-js-runtimes
+        /// </summary>
+        public bool NoJsRuntimes
+        {
+            get => this.noJsRuntimes.Value ?? false;
+            set => this.SetField(ref this.noJsRuntimes.Value, value);
         }
 
         /// <summary>
