@@ -191,6 +191,13 @@ namespace NYoutubeDL
             this.semaphore.Release();
         }
 
+        public async Task Update(string updateChannel)
+        {
+            await this.semaphore.WaitAsync();
+            await PreparationService.Update(this, updateChannel, CancellationToken.None);
+            this.semaphore.Release();
+        }
+
         /// <summary>
         ///     Get information about the video/playlist before downloading
         /// </summary>

@@ -29,6 +29,8 @@ namespace NYoutubeDL.Services
     using System.Threading;
     using System.Threading.Tasks;
     using Models;
+    using Options;
+    using Helpers;
 
     #endregion
 
@@ -37,6 +39,70 @@ namespace NYoutubeDL.Services
     /// </summary>
     internal static class PreparationService
     {
+        /// <summary>
+        /// Asynchronously update youtube-dl instance
+        /// </summary>
+        /// <returns></returns>
+        public static async Task Update(this YoutubeDL ydl, string updateChannel, CancellationToken cancellationToken)
+        {
+            string originalOptions = ydl.Options.Serialize();
+
+            ydl.Options = new Options()
+            {
+                GeneralOptions =
+                {
+                    Update = true,
+                    UpdateTo = updateChannel
+                }
+            };
+
+            cancellationToken.Register(() =>
+            {
+                Cancel(ydl);
+            });
+
+            if (ydl.processStartInfo == null)
+            {
+                ydl.isGettingInfo = true;
+                SetupPrepare(ydl);
+
+                if (ydl.processStartInfo == null)
+                {
+                    throw new NullReferenceException();
+                }
+
+                ydl.isGettingInfo = false;
+            }
+
+            ydl.process = new Process { StartInfo = ydl.processStartInfo, EnableRaisingEvents = true };
+            ydl.process.Start();
+
+            await ydl.process?.WaitForExitAsync(cancellationToken);
+
+            while (!ydl.process.HasExited && !cancellationToken.IsCancellationRequested)
+                await Task.Delay(100);
+
+            // Set options back to what they were
+            ydl.Options = Options.Deserialize(originalOptions);
+        }
+
+        private static void Cancel(YoutubeDL ydl, int count = 0)
+        {
+            try
+            {
+                ydl.StopProcess();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"\n\n{ex}\n\n");
+            }
+            finally
+            {
+                ydl.isGettingInfo = false;
+                ydl.IsDownloading = false;
+            }
+        }
+
         /// <summary>
         ///     Asynchronously prepare a youtube-dl command
         /// </summary>
@@ -126,9 +192,15 @@ namespace NYoutubeDL.Services
         internal static void SetupPrepare(YoutubeDL ydl)
         {
             // Convert the string to URI in order to sanitize it
-            var uri = new Uri(ydl.VideoUrl);
+            Uri uri = null;
 
-            string arguments = ydl.Options.ToCliParameters() + " " + uri.AbsoluteUri;
+            if(ydl.VideoUrl != null)
+                uri = new Uri(ydl.VideoUrl);
+
+            string arguments = ydl.Options.ToCliParameters();
+            
+            if(uri != null)
+                arguments += " " + uri.AbsoluteUri;
 
             ydl.processStartInfo = new ProcessStartInfo
             {
