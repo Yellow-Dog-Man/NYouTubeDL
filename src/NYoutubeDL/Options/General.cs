@@ -22,7 +22,6 @@ namespace NYoutubeDL.Options
 {
     #region Using
 
-    using System.Collections.Generic;
     using Helpers;
 
     #endregion
@@ -40,9 +39,9 @@ namespace NYoutubeDL.Options
 
         [Option] internal readonly StringOption configLocation = new StringOption("--config-location");
 
-        [Option] internal readonly MultiEnumOption<Enums.JsRuntime> jsRuntimes = new MultiEnumOption<Enums.JsRuntime>("--js-runtimes");
-
         [Option] internal readonly BoolOption noJsRuntimes = new BoolOption("--no-js-runtimes");
+
+        [Option] internal readonly EnumOption<Enums.JsRuntime> jsRuntimes = new EnumOption<Enums.JsRuntime>("--js-runtimes");
 
         [Option] internal readonly StringOption defaultSearch = new StringOption("--default-search");
 
@@ -93,10 +92,12 @@ namespace NYoutubeDL.Options
         /// <summary>
         ///     --js-runtimes
         /// </summary>
-        public IList<Enums.JsRuntime> JsRuntimes
+        public Enums.JsRuntime JsRuntime
         {
-            get => this.jsRuntimes.Value;
-            set => this.SetField(ref this.jsRuntimes.Value, value);
+            get => this.jsRuntimes.Value == null
+                ? Enums.JsRuntime.undefined
+                : (Enums.JsRuntime)this.jsRuntimes.Value;
+            set => this.SetField(ref this.jsRuntimes.Value, (int)value);
         }
 
         /// <summary>

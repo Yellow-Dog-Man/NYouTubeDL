@@ -134,6 +134,7 @@ namespace NYoutubeDL.Helpers
 		/// </summary>
         public enum JsRuntime
         {
+            undefined,
             deno,
             node,
             bun,
